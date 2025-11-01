@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"os"
 	"strings"
 )
 
@@ -61,20 +60,6 @@ func getCommands() map[string]cliCommand {
 	}
 }
 
-func commandExit() error {
-	fmt.Println("Closing the Pokedex... Goodbye!")
-	os.Exit(0)
-	return nil
-}
-
-func commandHelp() error {
-	fmt.Print("Welcome to the Pokedex!\nUsage:\n\n")
-	commands := getCommands()
-	for _, c := range commands {
-		fmt.Printf("%v: %v\n", c.name, c.description)
-	}
-	return nil
-}
 func cleanInput(text string) []string {
 	lowerText := strings.ToLower(text)
 	words := strings.Fields(lowerText)
