@@ -14,9 +14,7 @@ type cliCommand struct {
 }
 
 func startRepl() {
-	stdin := os.Stdin
-	scanner := bufio.NewScanner(stdin)
-	commands := getCommands()
+	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
 		fmt.Print("Pokedex > ")
@@ -26,21 +24,21 @@ func startRepl() {
 			}
 			break // EOF or error: exit REPL
 		}
-		line := scanner.Text()
-		fields := cleanInput(line)
-		if len(fields) == 0 {
+		words := cleanInput(scanner.Text())
+		if len(words) == 0 {
 			continue
 		}
-		command := fields[0]
 
-		if c, exists := commands[command]; exists {
-			err := c.callback()
+		cmdName := words[0]
+
+		if cmd, exists := getCommands()[cmdName]; exists {
+			err := cmd.callback()
 			if err != nil {
 				fmt.Printf("Error: %v\n", err)
 			}
 		} else {
 			fmt.Println("Unknown command")
-
+			continue
 		}
 	}
 }
