@@ -75,3 +75,9 @@ func commandHelp() error {
 	}
 	return nil
 }
+func cleanInput(text string) []string {
+	lowerText := strings.ToLower(text)
+	words := strings.Fields(lowerText)
+
+	return words
+}
