@@ -22,31 +22,33 @@ type config struct {
 
 func startRepl(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
+	cmds := getCommands()
 
 	for {
 		fmt.Print("Pokedex > ")
 		if !scanner.Scan() {
-			if err := scanner.Err(); err != nil {
-				fmt.Fprintf(os.Stderr, "scan error: %v\n", err)
-			}
 			break // EOF or error: exit REPL
 		}
+
 		words := cleanInput(scanner.Text())
 		if len(words) == 0 {
 			continue
 		}
 
-		cmdName := words[0]
-
-		if cmd, exists := getCommands()[cmdName]; exists {
-			err := cmd.callback()
-			if err != nil {
-				fmt.Printf("Error: %v\n", err)
-			}
-		} else {
-			fmt.Println("Unknown command")
+		cmd, ok := cmds[words[0]]
+		if !ok {
+			fmt.Printf("Unknown command: %v\n", words[0])
 			continue
 		}
+
+		if err := cmd.callback(cfg, words[1:]); err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		}
+	}
+
+	// Check for scanner errors after loop
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintf(os.Stderr, "Scanner error: %v\n", err)
 	}
 }
 
