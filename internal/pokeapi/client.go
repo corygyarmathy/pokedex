@@ -1,3 +1,4 @@
+package pokeapi
 
 import (
 	"net/http"
