@@ -52,17 +52,35 @@ func startRepl(cfg *config) {
 	}
 }
 
+// Command names
+const (
+	cmdExit = "exit"
+	cmdHelp = "help"
+	cmdMap  = "map"
+	cmdMapB = "mapb"
+)
+
 func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{
-		"exit": {
-			name:        "exit",
+		cmdExit: {
+			name:        cmdExit,
 			description: "Exit the Pokedex",
 			callback:    commandExit,
 		},
-		"help": {
-			name:        "help",
+		cmdHelp: {
+			name:        cmdHelp,
 			description: "Displays a help message",
 			callback:    commandHelp,
+		},
+		cmdMap: {
+			name:        cmdMap,
+			description: "Displays the next page of locations",
+			callback:    commandMapFwrd,
+		},
+		cmdMapB: {
+			name:        cmdMapB,
+			description: "Displays the previous page of locations",
+			callback:    commandMapBack,
 		},
 	}
 }
