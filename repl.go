@@ -4,16 +4,23 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"pokedex/internal/pokeapi"
 	"strings"
 )
 
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(cfg *config, args []string) error
 }
 
-func startRepl() {
+type config struct {
+	pokeAPIClient *pokeapi.Client
+	nextLocURL    *string
+	prevLocURL    *string
+}
+
+func startRepl(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
