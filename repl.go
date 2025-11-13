@@ -11,7 +11,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(cfg *config, args []string) error
+	callback    func(cfg *config, args ...string) error
 }
 
 type config struct {
@@ -41,8 +41,8 @@ func startRepl(cfg *config) {
 			continue
 		}
 
-		if err := cmd.callback(cfg, words[1:]); err != nil {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		if err := cmd.callback(cfg, words[1:]...); err != nil {
+			fmt.Fprintf(os.Stderr, "Command error: %v\n", err)
 		}
 	}
 
@@ -58,6 +58,7 @@ const (
 	cmdHelp = "help"
 	cmdMap  = "map"
 	cmdMapB = "mapb"
+	cmdExp  = "explore"
 )
 
 func getCommands() map[string]cliCommand {
@@ -81,6 +82,11 @@ func getCommands() map[string]cliCommand {
 			name:        cmdMapB,
 			description: "Displays the previous page of locations",
 			callback:    commandMapBack,
+		},
+		cmdExp: {
+			name:        cmdExp + "<location-name>",
+			description: "Displays the Pokemon found in a given location",
+			callback:    commandExplore,
 		},
 	}
 }
