@@ -7,7 +7,6 @@ import (
 )
 
 func (c *Client) doGET(url string) ([]byte, error) {
-	fmt.Println("HTTP GET URL: " + url)
 	data, ok := c.cache.Get(url)
 	if !ok || data == nil { // URL not in cache or no cached data, retrieve via HTTP GET
 		req, err := http.NewRequest("GET", url, nil)
