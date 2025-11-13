@@ -62,6 +62,7 @@ const (
 	cmdExp  = "explore"
 	cmdCtch = "catch"
 	cmdInsp = "inspect"
+	cmdPkdx = "pokedex"
 )
 
 func getCommands() map[string]cliCommand {
@@ -100,6 +101,11 @@ func getCommands() map[string]cliCommand {
 			name:        cmdInsp + "<pokemon-name>",
 			description: "Inspects the specified caught Pokemon",
 			callback:    commandInspect,
+		},
+		cmdPkdx: {
+			name:        cmdPkdx,
+			description: "Displays all caught Pokemon",
+			callback:    commandPokedex,
 		},
 	}
 }
