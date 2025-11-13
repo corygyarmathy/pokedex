@@ -1,3 +1,4 @@
+// Package pokecache provides a cache for package pokeapi.
 package pokecache
 
 import (

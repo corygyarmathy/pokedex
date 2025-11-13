@@ -1,3 +1,4 @@
+// Package pokeapi provides functions for interacting with the PokeAPI.
 package pokeapi
 
 const (
